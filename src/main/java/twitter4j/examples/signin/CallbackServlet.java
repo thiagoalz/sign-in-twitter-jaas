@@ -26,10 +26,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package twitter4j.examples.signin;
 
+import to.tagme.jaas.filter.PassiveCallbackHandler;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.auth.RequestToken;
 
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -43,12 +46,26 @@ public class CallbackServlet extends HttpServlet {
         Twitter twitter = (Twitter) request.getSession().getAttribute("twitter");
         RequestToken requestToken = (RequestToken) request.getSession().getAttribute("requestToken");
         String verifier = request.getParameter("oauth_verifier");
-        try {
-            twitter.getOAuthAccessToken(requestToken, verifier);
-            request.getSession().removeAttribute("requestToken");
-        } catch (TwitterException e) {
-            throw new ServletException(e);
-        }
+        
+     // login
+		String username = "username";
+		String password = "password";
+		PassiveCallbackHandler handler = new PassiveCallbackHandler(username,password);
+		LoginContext lc;
+		try {
+			lc = new LoginContext("twitter", handler);
+			lc.login();
+		} catch (LoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+//        try {
+//            twitter.getOAuthAccessToken(requestToken, verifier);
+//            request.getSession().removeAttribute("requestToken");
+//        } catch (TwitterException e) {
+//            throw new ServletException(e);
+//        }
         response.sendRedirect(request.getContextPath() + "/");
     }
 }
