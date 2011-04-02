@@ -26,7 +26,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package twitter4j.examples.signin;
 
-import to.tagme.jaas.filter.PassiveCallbackHandler;
+import to.tagme.jaas.PassiveCallbackHandler;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.auth.RequestToken;

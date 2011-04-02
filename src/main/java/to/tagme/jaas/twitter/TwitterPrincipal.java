@@ -1,4 +1,4 @@
-package to.tagme.jaas.filter;
+package to.tagme.jaas.twitter;
 
 import java.security.Principal;
 

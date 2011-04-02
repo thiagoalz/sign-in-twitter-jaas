@@ -1,16 +1,11 @@
-package to.tagme.jaas.filter;
+package to.tagme.jaas.twitter;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.Map;
 import java.util.Set;
 
 import javax.security.auth.Subject;
-import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.NameCallback;
-import javax.security.auth.callback.PasswordCallback;
-import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
@@ -22,6 +17,8 @@ import org.apache.commons.logging.LogFactory;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import twitter4j.User;
+import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
 public class TwitterLoginModule implements LoginModule {
@@ -62,13 +59,13 @@ public class TwitterLoginModule implements LoginModule {
 			HttpServletRequest request = (HttpServletRequest) javax.security.jacc.PolicyContext
 					.getContext("javax.servlet.http.HttpServletRequest");
 
-			this.twitter = (Twitter) request.getSession().getAttribute("twitter");
+			this.twitter = (Twitter) request.getSession().getAttribute("twitter");			
 			this.requestToken = (RequestToken) request.getSession().getAttribute("requestToken");
 			this.verifier = request.getParameter("oauth_verifier");
-
+			
+			request.getSession().removeAttribute("twitter");
 			request.getSession().removeAttribute("requestToken");
 		} catch (PolicyContextException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -76,18 +73,12 @@ public class TwitterLoginModule implements LoginModule {
 	public boolean login() throws LoginException {
 		log.info("login()");
 
-		this.loginOk = false;
-		
-		//Not beeing used
-		String[] info = getUserAndPass();
-		String username = info[0];
-		String password = info[1];
+		this.loginOk = false;	
 
 		if (validateTwitter(this.requestToken, this.verifier) == false) {
 
-			FailedLoginException fle = new FailedLoginException(
-					"Password Incorrect/Password Required");
-			log.debug("Bad password for username=" + username);
+			FailedLoginException fle = new FailedLoginException("Twitter Login Failed");
+			log.debug("Twitter Login Failed");
 
 			throw fle;
 		}
@@ -107,64 +98,20 @@ public class TwitterLoginModule implements LoginModule {
 	}
 
 	private boolean validateTwitter(RequestToken requestToken, String verifier) {
+		log.info("Validando Twitter");		
 		boolean ok = false;
 
 		try {
-			this.twitter.getOAuthAccessToken(requestToken, verifier);
+			AccessToken tk=this.twitter.getOAuthAccessToken(requestToken, verifier);			
+
 			ok = true;
+			log.info("Validei");
+			User usr=this.twitter.verifyCredentials();
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}
 
 		return ok;
-	}
-
-	/**
-	 * TODO: JBoss Code Called by login() to acquire the username and password
-	 * strings for authentication. This method does no validation of either.
-	 * 
-	 * @return String[], [0] = username, [1] = password
-	 * @exception LoginException
-	 *                thrown if CallbackHandler is not set or fails.
-	 */
-	protected String[] getUserAndPass() throws LoginException {
-		String[] info = { null, null };
-		// prompt for a username and password
-		if (callbackHandler == null) {
-			throw new LoginException("Error: no CallbackHandler available "
-					+ "to collect authentication information");
-		}
-
-		NameCallback nc = new NameCallback("User name: ", "guest");
-		PasswordCallback pc = new PasswordCallback("Password: ", false);
-		Callback[] callbacks = { nc, pc };
-		String username = null;
-		String password = null;
-		try {
-			callbackHandler.handle(callbacks);
-			username = nc.getName();
-			char[] tmpPassword = pc.getPassword();
-			if (tmpPassword != null) {
-				credential = new char[tmpPassword.length];
-				System.arraycopy(tmpPassword, 0, credential, 0,
-						tmpPassword.length);
-				pc.clearPassword();
-				password = new String(credential);
-			}
-		} catch (IOException e) {
-			LoginException le = new LoginException(
-					"Failed to get username/password");
-			le.initCause(e);
-			throw le;
-		} catch (UnsupportedCallbackException e) {
-			LoginException le = new LoginException(
-					"CallbackHandler does not support: " + e.getCallback());
-			le.initCause(e);
-			throw le;
-		}
-		info[0] = username;
-		info[1] = password;
-		return info;
 	}
 
 	/**
@@ -185,6 +132,26 @@ public class TwitterLoginModule implements LoginModule {
 		Principal identity = this.identity;
 		principals.add(identity);
 		
+		this.addRoles();
+		
+
+		// Imprimindo infos
+		for (Principal p : this.subject.getPrincipals()) {
+			log.info("Principal = " + p.toString() + "(" + p.getClass() + ")");
+		}
+		for (Object c : this.subject.getPrivateCredentials()) {
+			log.info("PrivateCredentials = " + c.toString() + "("
+					+ c.getClass() + ")");
+		}
+		for (Object c : this.subject.getPublicCredentials()) {
+			log.info("PublicCredentials = " + c.toString() + "(" + c.getClass()
+					+ ")");
+		}
+
+		return true;
+	}
+	
+	private void addRoles(){
 		//TODO: Adicionar roles
 //		Group[] roleSets = getRoleSets();
 //		for (int g = 0; g < roleSets.length; g++) {
@@ -209,29 +176,10 @@ public class TwitterLoginModule implements LoginModule {
 //				subjectGroup.addMember(role);
 //			}
 //		}
-
-		// Imprimindo infos
-		String userId = (String) sharedState
-				.get("javax.security.auth.login.name");
-		log.info("userId = " + userId);
-
-		for (Principal p : this.subject.getPrincipals()) {
-			log.info("Principal = " + p.toString() + "(" + p.getClass() + ")");
-		}
-		for (Object c : this.subject.getPrivateCredentials()) {
-			log.info("PrivateCredentials = " + c.toString() + "("
-					+ c.getClass() + ")");
-		}
-		for (Object c : this.subject.getPublicCredentials()) {
-			log.info("PublicCredentials = " + c.toString() + "(" + c.getClass()
-					+ ")");
-		}
-
-		return true;
 	}
 
 	/**
-	 * N??o faz nada.
+	 * Nao faz nada.
 	 */
 	public boolean abort() throws LoginException {
 		log.info("abort()");
@@ -240,7 +188,7 @@ public class TwitterLoginModule implements LoginModule {
 	}
 
 	/**
-	 * N??o faz nada.
+	 * Nao faz nada.
 	 */
 	public boolean logout() throws LoginException {
 
