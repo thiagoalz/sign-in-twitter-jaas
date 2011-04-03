@@ -50,7 +50,7 @@
 		<display-name>Restricted GET To users</display-name>
 		<web-resource-collection>
 			<web-resource-name>Restricted Access</web-resource-name>
-			<url-pattern>/index2.jsp</url-pattern>
+			<url-pattern>/restricted.jsp</url-pattern>
 			<http-method>GET</http-method>
 		</web-resource-collection>
 		<auth-constraint>
@@ -58,12 +58,13 @@
 		</auth-constraint>
 	</security-constraint>
 
-
 	<login-config>
-		<auth-method>BASIC</auth-method>
-		<realm-name>twitter</realm-name>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/index.jsp</form-login-page>
+			<form-error-page>/error.jsp</form-error-page>
+		</form-login-config>
 	</login-config>
-
 
 
 	<security-role>

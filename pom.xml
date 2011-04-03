@@ -1,58 +1,62 @@
 <project>
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>net.homeip.yusuke</groupId>
-    <artifactId>sign-in-with-twitter</artifactId>
-    <version>1.0</version>
-    <packaging>war</packaging>
-    <name>Web Application</name>
-    <repositories>
-        <repository>
-            <id>org.twitter4j</id>
-            <name>org.twitter4j</name>
-            <url>http://org.twitter4j/maven2</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>org.jboss</id>
-            <url>http://repository.jboss.org/maven2</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-    <dependencies>
-    	<dependency>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.homeip.yusuke</groupId>
+	<artifactId>sign-in-with-twitter</artifactId>
+	<version>1.0</version>
+	<packaging>war</packaging>
+	<name>Web Application</name>
+	<repositories>
+		<repository>
+			<id>org.twitter4j</id>
+			<name>org.twitter4j</name>
+			<url>http://org.twitter4j/maven2</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Maven Repository Group</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+	<dependencies>
+		<dependency>
 			<groupId>commons-logging</groupId>
 			<!-- -<groupId>com.sun.org.apache</groupId> -->
 			<artifactId>commons-logging</artifactId>
 			<version>1.1.1</version>
 		</dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.4</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.twitter4j</groupId>
-            <artifactId>twitter4j-core</artifactId>
-            <version>2.2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.2</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- open ejb -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.4</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.twitter4j</groupId>
+			<artifactId>twitter4j-core</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.2</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- open ejb -->
 		<dependency>
 			<groupId>org.apache.openejb</groupId>
 			<artifactId>javaee-api</artifactId>
@@ -68,23 +72,23 @@
 		<dependency>
 			<groupId>org.jboss.jbossas</groupId>
 			<artifactId>jboss-as-tomcat</artifactId>
-			<version>5.1.0.GA</version>
+			<version>6.0.0.M1</version>
 			<scope>provided</scope>
 		</dependency>
-    </dependencies>
-    <build>
-    	<finalName>sign-in-with-twitter</finalName>
-        <defaultGoal>install</defaultGoal>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+	</dependencies>
+	<build>
+		<finalName>sign-in-with-twitter</finalName>
+		<defaultGoal>install</defaultGoal>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

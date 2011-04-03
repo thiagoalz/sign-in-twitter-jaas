@@ -149,7 +149,7 @@ public class TwitterLoginModule implements LoginModule {
 		
 
 		// Imprimindo infos
-		for (Principal p : this.subject.getPrincipals()) {
+		for (Object p : this.subject.getPrincipals()) {
 			log.info("Principal = " + p.toString() + "(" + p.getClass() + ")");
 		}
 		for (Object c : this.subject.getPrivateCredentials()) {

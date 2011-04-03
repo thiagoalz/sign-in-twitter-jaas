@@ -18,5 +18,9 @@ public class MySimplePrincipal implements Principal, java.io.Serializable{
 	public String getName() {
 		return this.name;
 	}
+	
+	public String toString(){
+		return this.getName();
+	}
 
 }

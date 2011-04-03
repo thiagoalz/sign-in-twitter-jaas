@@ -21,7 +21,7 @@ public class TwitterPrincipal implements Principal, java.io.Serializable {
 		return this.name;
 	}
 	
-	public long id() {
+	public long getId() {
 		return this.id;
 	}
 

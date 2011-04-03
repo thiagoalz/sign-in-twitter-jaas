@@ -14,19 +14,10 @@
 <title>Sign in with Twitter example</title>
 </head>
 <body>
-	<tag:notloggedin>
-		<a href="signin"><img
-			src="./images/Sign-in-with-Twitter-darker.png" /> </a>
-	</tag:notloggedin>
-	<tag:loggedin>
-		<h1>Welcome ${principal.name} (${principal.id})</h1>
+	
+	<h1>A Restricted Page</h1>
+	${principal.name} (${principal.id})
 
-		<form action="./post" method="post">
-			<textarea cols="80" rows="2" name="text"></textarea>
-			<input type="submit" name="post" value="update" />
-		</form>
-		<a href="./logout">logout</a>
-	</tag:loggedin>
 </body>
 </html>
 
