@@ -1,0 +1,5 @@
+This is a fork from yusuke/sign-in-with-twitter.
+
+This version intends to login with a twitter accout using twitter4J using JAAS.
+
+Only works for JBoss :/ sorry. Need help to improve and make it work for any AS.
