@@ -1,1 +1,1 @@
-<%if(null != session.getAttribute("twitter")){%><jsp:doBody/><%}%>
+<%if(null != request.getUserPrincipal()){%><jsp:doBody/><%}%>

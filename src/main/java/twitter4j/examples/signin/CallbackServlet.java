@@ -31,6 +31,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.auth.RequestToken;
 
+
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 import javax.servlet.ServletException;
@@ -39,6 +40,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import org.jboss.web.tomcat.security.login.WebAuthentication;
+
 public class CallbackServlet extends HttpServlet {
     private static final long serialVersionUID = 1657390011452788111L;
 
@@ -46,19 +49,19 @@ public class CallbackServlet extends HttpServlet {
         Twitter twitter = (Twitter) request.getSession().getAttribute("twitter");
         RequestToken requestToken = (RequestToken) request.getSession().getAttribute("requestToken");
         String verifier = request.getParameter("oauth_verifier");
+                                                        
         
      // login
-		String username = "username";
-		String password = "password";
-		PassiveCallbackHandler handler = new PassiveCallbackHandler(username,password);
-		LoginContext lc;
-		try {
-			lc = new LoginContext("twitter", handler);
-			lc.login();
-		} catch (LoginException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String username = "Chuck";//Not used on LoginModule
+		String password = "Norris";//Not used on LoginModule
+		
+		if (new WebAuthentication().login(username, password)) {
+			System.out.println("Autenticao funcionou!");
+        }else{
+        	System.out.println("Autenticao falhou");
+        }
+		
+		
 		
 //        try {
 //            twitter.getOAuthAccessToken(requestToken, verifier);

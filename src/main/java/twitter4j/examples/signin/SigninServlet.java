@@ -36,11 +36,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.Principal;
 
 public class SigninServlet extends HttpServlet {
     private static final long serialVersionUID = -6205814293093350242L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	Principal principal = request.getUserPrincipal();
+    	if (principal != null)
+    		throw new ServletException("Fudeu" + principal.getName());
         Twitter twitter = new TwitterFactory().getInstance();
         request.getSession().setAttribute("twitter", twitter);
         try {
