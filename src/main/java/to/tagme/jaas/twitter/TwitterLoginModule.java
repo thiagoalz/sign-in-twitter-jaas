@@ -47,7 +47,6 @@ public class TwitterLoginModule implements LoginModule {
 	protected boolean loginOk = false;
 
 	private Principal identity;
-	private char[] credential;
 
 	Twitter twitter;
 	RequestToken requestToken;
@@ -83,9 +82,6 @@ public class TwitterLoginModule implements LoginModule {
 
 		this.loginOk = false;
 		
-		String[] info = getUserAndPass();
-		String username = info[0];
-		String password = info[1];
 
 		if (validateTwitter(this.requestToken, this.verifier) == false) {
 
@@ -162,46 +158,6 @@ public class TwitterLoginModule implements LoginModule {
 		}
 
 		return true;
-	}
-	
-	protected String[] getUserAndPass() throws LoginException {
-		String[] info = { null, null };
-		// prompt for a username and password
-		if (callbackHandler == null) {
-			throw new LoginException("Error: no CallbackHandler available "
-					+ "to collect authentication information");
-		}
-
-		NameCallback nc = new NameCallback("User name: ", "guest");
-		PasswordCallback pc = new PasswordCallback("Password: ", false);
-		Callback[] callbacks = { nc, pc };
-		String username = null;
-		String password = null;
-		try {
-			callbackHandler.handle(callbacks);
-			username = nc.getName();
-			char[] tmpPassword = pc.getPassword();
-			if (tmpPassword != null) {
-				credential = new char[tmpPassword.length];
-				System.arraycopy(tmpPassword, 0, credential, 0,
-						tmpPassword.length);
-				pc.clearPassword();
-				password = new String(credential);
-			}
-		} catch (IOException e) {
-			LoginException le = new LoginException(
-					"Failed to get username/password");
-			le.initCause(e);
-			throw le;
-		} catch (UnsupportedCallbackException e) {
-			LoginException le = new LoginException(
-					"CallbackHandler does not support: " + e.getCallback());
-			le.initCause(e);
-			throw le;
-		}
-		info[0] = username;
-		info[1] = password;
-		return info;
 	}
 	
 	private void addRoles(){
