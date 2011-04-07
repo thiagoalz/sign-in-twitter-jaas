@@ -26,19 +26,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package twitter4j.examples.signin;
 
-import to.tagme.jaas.PassiveCallbackHandler;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.auth.RequestToken;
+import java.io.IOException;
 
-
-import javax.security.auth.login.LoginContext;
-import javax.security.auth.login.LoginException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 import org.jboss.web.tomcat.security.login.WebAuthentication;
 
@@ -46,9 +39,9 @@ public class CallbackServlet extends HttpServlet {
     private static final long serialVersionUID = 1657390011452788111L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Twitter twitter = (Twitter) request.getSession().getAttribute("twitter");
-        RequestToken requestToken = (RequestToken) request.getSession().getAttribute("requestToken");
-        String verifier = request.getParameter("oauth_verifier");
+//        Twitter twitter = (Twitter) request.getSession().getAttribute("twitter");
+//        RequestToken requestToken = (RequestToken) request.getSession().getAttribute("requestToken");
+//        String verifier = request.getParameter("oauth_verifier");
                                                         
         
      // login

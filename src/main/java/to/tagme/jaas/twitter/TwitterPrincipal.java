@@ -1,11 +1,10 @@
 package to.tagme.jaas.twitter;
 
-import java.security.Principal;
+import to.tagme.jaas.MySimplePrincipal;
 
-public class TwitterPrincipal implements Principal, java.io.Serializable {
+public class TwitterPrincipal extends MySimplePrincipal {
 
 	private static final long serialVersionUID = 1L;
-	private String name;
 	private long id;
 	
 	public TwitterPrincipal(String name, long id) {
@@ -14,35 +13,11 @@ public class TwitterPrincipal implements Principal, java.io.Serializable {
 	}
 
 	public TwitterPrincipal(String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return this.name;
-	}
+		super(name);
+	}	
 	
 	public long getId() {
 		return this.id;
-	}
-
-	public boolean equals(Object another) {
-		if (!(another instanceof Principal))
-			return false;
-		String anotherName = ((Principal) another).getName();
-		boolean equals = false;
-		if (name == null)
-			equals = anotherName == null;
-		else
-			equals = name.equals(anotherName);
-		return equals;
-	}
-
-	public int hashCode() {
-		return (name == null ? 0 : name.hashCode());
-	}
-
-	public String toString() {
-		return name;
 	}
 
 }
