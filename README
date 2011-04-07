@@ -3,3 +3,16 @@ This is a fork from yusuke/sign-in-with-twitter.
 This version intends to login with a twitter accout using twitter4J using JAAS.
 
 Only works for JBoss :/ sorry. Need help to improve and make it work for any AS.
+
+
+===============How to Configure===============
+*Add twitter4j configuration to your run.conf:
+JAVA_OPTS="$JAVA_OPTS -Dtwitter4j.oauth.consumerKey=yourkey -Dtwitter4j.oauth.consumerSecret=yourSecret"
+
+*Add the policy to your login-config.xml:
+<application-policy name="twitter">
+    <authentication>
+      <login-module code="to.tagme.jaas.twitter.TwitterLoginModule"
+        flag="required"/>
+    </authentication>
+  </application-policy>
