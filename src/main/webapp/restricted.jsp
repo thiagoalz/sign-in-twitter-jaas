@@ -4,7 +4,7 @@
 <%@taglib prefix="tag" tagdir="/WEB-INF/tags"%>
 
 <%
-	TwitterPrincipal principal = getPrincipal();
+	TwitterPrincipal principal = (TwitterPrincipal) request.getUserPrincipal();
 	request.setAttribute("principal",principal);
 %>
 
@@ -20,16 +20,3 @@
 
 </body>
 </html>
-
-<%!//A Jboss Bug makes getUserPrincipal retur a SimplePrincipal instead of a TwitterPrincipal.
-	public TwitterPrincipal getPrincipal() {
-
-		if ((SecurityAssociation.getSubject() == null)
-				|| (SecurityAssociation.getSubject().getPrincipals(TwitterPrincipal.class) == null)
-				|| (SecurityAssociation.getSubject().getPrincipals(TwitterPrincipal.class).toArray().length == 0)) {
-			return null;
-		}
-
-		return (TwitterPrincipal) SecurityAssociation.getSubject()
-				.getPrincipals(TwitterPrincipal.class).toArray()[0];
-	}%>

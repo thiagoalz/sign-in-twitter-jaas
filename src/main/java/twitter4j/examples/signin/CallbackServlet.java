@@ -48,14 +48,14 @@ public class CallbackServlet extends HttpServlet {
 		String username = "Chuck";//Not used on LoginModule
 		String password = "Norris";//Not used on LoginModule
 		
-		if (new WebAuthentication().login(username, password)) {
-			System.out.println("Autenticao funcionou!");
+	if (new WebAuthentication().login(username, password)) {
+		System.out.println("Autenticao funcionou!");
+		System.out.println(request.getUserPrincipal().getClass()+" : "+request.getUserPrincipal());
         }else{
         	System.out.println("Autenticao falhou");
         }
 		
-		
-		
+			
 //        try {
 //            twitter.getOAuthAccessToken(requestToken, verifier);
 //            request.getSession().removeAttribute("requestToken");
