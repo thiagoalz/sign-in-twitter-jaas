@@ -112,11 +112,14 @@ public class TwitterLoginModule implements LoginModule {
 		try {
 			AccessToken tk=this.twitter.getOAuthAccessToken(requestToken, verifier);			
 
-			ok = true;
 			log.info("Validei");
 			User usr=this.twitter.verifyCredentials();
+			
+			ok = true;
 		} catch (TwitterException e) {
 			e.printStackTrace();
+			
+			ok = false;
 		}
 
 		return ok;
@@ -178,7 +181,11 @@ public class TwitterLoginModule implements LoginModule {
 		Principal r = new MySimplePrincipal("user");
 		userRoles.addMember(r);
 
-		Group[] roleSets = { userRoles };
+		Group callerPrincipal = new MySimpleGroup("CallerPrincipal");
+		callerPrincipal.addMember(this.identity);
+		
+		Group[] roleSets = { userRoles, callerPrincipal };
+
 		return roleSets;
 	}
 
@@ -197,6 +204,8 @@ public class TwitterLoginModule implements LoginModule {
 	public boolean logout() throws LoginException {
 
 		log.info("logout()");
+
+		//TODO: Should remove principals
 
 		return true;
 	}
