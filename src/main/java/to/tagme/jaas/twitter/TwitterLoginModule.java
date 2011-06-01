@@ -110,15 +110,19 @@ public class TwitterLoginModule implements LoginModule {
 		boolean ok = false;
 
 		try {
-			AccessToken tk=this.twitter.getOAuthAccessToken(requestToken, verifier);			
-
-			log.info("Validei");
+			AccessToken tk=this.twitter.getOAuthAccessToken(requestToken, verifier);						
 			User usr=this.twitter.verifyCredentials();
+			log.info("Validated");
+
+			
+			String screenName=this.twitter.getScreenName();
+			if(screenName==null || screenName.length()==0){
+				throw new TwitterException("Error geting Screen Name");
+			}
 			
 			ok = true;
 		} catch (TwitterException e) {
 			e.printStackTrace();
-			
 			ok = false;
 		}
 
